@@ -1,0 +1,14 @@
+/* ConnectWalletButton.module.css */
+.walletText {
+    display: none;
+}
+
+.walletIcon {
+    display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+    .walletText {
+        display: inline;
+    }
+}

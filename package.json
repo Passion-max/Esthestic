@@ -6,11 +6,35 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "prisma db seed --preview-feature"
   },
   "dependencies": {
+    "@prisma/client": "^4.14.1",
+    "@web3modal/ethereum": "^2.3.7",
+    "@web3modal/react": "^2.3.7",
+    "axios": "^1.4.0",
+    "ethers": "^5.7.2",
+    "iron-session": "^6.3.1",
+    "jquery": "^3.6.4",
     "next": "13.4.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-bootstrap": "^2.7.4",
+    "react-dom": "18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-id-swiper": "^4.0.0",
+    "react-loading": "^2.0.3",
+    "react-router-dom": "^6.11.1",
+    "react-scripts": "^5.0.1",
+    "siwe": "^2.1.4",
+    "swiper": "^9.3.1",
+    "tachyons-components": "^1.0.1",
+    "viem": "^0.3.19",
+    "wagmi": "^1.0.1"
+  },
+  "devDependencies": {
+    "prisma": "^4.14.1"
   }
 }
