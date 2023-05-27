@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
@@ -13,6 +12,12 @@ const nextConfig = {
       tls: false,
       // Other configurations go here
     };
+
+    // Add css-loader to the rules array
+    config.module.rules.push({
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    });
 
     return config;
   },
