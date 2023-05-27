@@ -781,9 +781,7 @@ blockquote .author::before {
 
 .sc-author-card .card-media img {
     width             : 100%;
-    webkit-filter     : grayscale(100%);
-    -ms-filter        : grayscale(100%);
-    -moz-filter       : grayscale(100%);
+    filter     : grayscale(100%);
     -webkit-transform : scale(1.02);
     transform         : scale(1.02);
     transition        : all .3s ease;
