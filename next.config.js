@@ -13,11 +13,7 @@ const nextConfig = {
       // Other configurations go here
     };
 
-    // Add css-loader to the rules array
-    // config.module.rules.push({
-    //   test: /\.css$/,
-    //   use: ['style-loader', 'css-loader']
-    // },);
+    
 
     return config;
   },
