@@ -1,0 +1,12 @@
+create these functions for interacting with the db
+GetUser(wallet) - used for geting user data, record is return as json
+createUser(wallet) - used for creating new user. default values to use are:
+    username:'unname'
+    profile_image: ''
+    feature_image:''
+    network:'Ethereum'
+    wallet:wallet
+for each new user the createUser function will choose a random profile_image and
+feature_image from this list p-i[1.jpg,2.jpg,3.jpg,4.jpg,5.jpg] f_ip-i[1.jpg,2.jpg,3.jpg,4.jpg,5.jpg]
+
+checkUser(wallet) - used to check if a user exist and based on that call the either createUser(wallet) or GetUser(wallet) 

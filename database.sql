@@ -12,11 +12,9 @@ CREATE TABLE `Admin` (
 
 CREATE TABLE `Users` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  `Firstname` VARCHAR(255) NOT NULL,
-  `Lastname` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
   `Desc` TEXT,
   `url` VARCHAR(255),
-  `username` VARCHAR(255),
   `email` VARCHAR(255),
   `wallet` VARCHAR(255),
   `facebook` VARCHAR(255),
