@@ -64,7 +64,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
         body: JSON.stringify({ message, signature }),
       });
       if (!verifyRes.ok) throw new Error("Error verifying message");
-
+      console.log(verifyRes)
       setState((prevState) => ({ ...prevState, loading: false }));
       onSuccess({ address });
     } catch (error) {
