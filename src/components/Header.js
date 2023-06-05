@@ -142,7 +142,7 @@ const Header = () => {
       setShow(false);
       // Make a GET request to check if the user exists
       axios
-        .get(`/api/users?wallet=${state.address}`)
+        .get(`/api/user?wallet=${state.address}`)
         .then((response) => {
           console.log("User exists:", response.data);
         })
