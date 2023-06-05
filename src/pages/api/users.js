@@ -51,8 +51,8 @@ export default async function handle(req, res) {
           res.status(200).json(user);
         }
       } else {
-        const users = await getAllUsers();
-        res.status(200).json(users);
+        const users = 'NO users';
+        res.status(200).json({message: users});
       }
       break;
     case "POST":
