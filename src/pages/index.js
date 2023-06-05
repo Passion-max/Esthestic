@@ -8,9 +8,17 @@ import TrendyCollection from '../components/TrendyCollection/TrendyCollection';
 import PopularCategories from '../components/PopularCategories/PopularCategories';
 import HotCollection from '../components/HotCollection/HotCollection';
 import TopSeller from '../components/TopSeller/TopSeller';
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] })
 
+axios.get('/api/users')
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 export default function Home() {
   return (
     <>

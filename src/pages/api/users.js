@@ -16,6 +16,10 @@ const getUser = async (wallet) => {
   });
 };
 
+const getAllUsers = async () => {
+  return await prisma.user.findMany();
+};
+
 const createUser = async (wallet) => {
   const profile_image = getRandomImage(profileImages);
   const feature_image = getRandomImage(featureImages);
@@ -39,11 +43,16 @@ export default async function handle(req, res) {
 
   switch (method) {
     case "GET":
-      const user = await getUser(wallet);
-      if (!user) {
-        res.status(404).json({ message: "User not found" });
+      if (wallet) {
+        const user = await getUser(wallet);
+        if (!user) {
+          res.status(404).json({ message: "User not found" });
+        } else {
+          res.status(200).json(user);
+        }
       } else {
-        res.status(200).json(user);
+        const users = await getAllUsers();
+        res.status(200).json(users);
       }
       break;
     case "POST":
