@@ -10,7 +10,7 @@ const handler = async (req, res) => {
     case 'GET':
       const user = req.session.user
       if(user) {
-        res.status(200).json(user)
+        res.send({ user: req.session.user });
       }
       break
     default:
