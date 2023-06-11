@@ -10,11 +10,13 @@ import logoutIcon from "../../../public/assets/images/icon/logout.svg";
 import { useDisconnect, useAccount } from "wagmi";
 import { useAPI } from "@/contexts/ApiProvider";
 import { useBalance } from "wagmi";
+import { useRouter } from "next/router";
+
 
 const UserProfile = () => {
+  const router = useRouter();
   const [show, setShow] = useState(false);
   const { user, setUser, setState } = useAPI();
-
   const { disconnect } = useDisconnect();
   const { address, isConnected, isDisconnected } = useAccount();
 
@@ -24,6 +26,12 @@ const UserProfile = () => {
     setUser({});
     setState({})
   };
+
+  useEffect(() => {
+    if (!user || Object.keys(user).length === 0) {
+      router.push("/");
+    }
+  }, [user]);
 
   const balance = useBalance({
     address: address,
@@ -41,7 +49,6 @@ const UserProfile = () => {
   var userBalance = ''
   if (user && balance.data) {
     userBalance = balance.data;
-
   }
 
   useEffect(() => {
@@ -55,10 +62,12 @@ const UserProfile = () => {
   const toggleShow = () => {
     setShow(!show);
   };
-  console.log(user)
-  if (user != {} ) {
-  return (
+
+  if (!user || typeof user !== 'object' || Object.keys(user).length === 0 ) {
+    return null;
+  }
     
+  return (
     <div className="admin_active active" id="header_admin" onClick={toggleShow}>
       <div className={show ? "header_avatar show" : "header_avatar"}>
         <img className="avatar" src= {user!= {}? user.profile_image: ''} alt="avatar" />
@@ -121,7 +130,7 @@ const UserProfile = () => {
         </div>
       </div>
     </div>
-  ); }
+  )
 };
 
 export default UserProfile;
