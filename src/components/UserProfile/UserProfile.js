@@ -27,11 +27,7 @@ const UserProfile = () => {
     setState({})
   };
 
-  useEffect(() => {
-    if (!user || Object.keys(user).length === 0) {
-      router.push("/");
-    }
-  }, [user]);
+  
 
   const balance = useBalance({
     address: address,

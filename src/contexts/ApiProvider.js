@@ -23,7 +23,9 @@ export const ApiProvider = ({ children }) => {
     };
   };
 
-  const { user: fetchedUser } = useUser();
+  let { user: fetchedUser } = useUser();
+  
+ console.log(user)
 
   useEffect(() => {
     if (fetchedUser) {
