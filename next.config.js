@@ -17,6 +17,10 @@ const nextConfig = {
 
     return config;
   },
+  images:{
+    loader: 'cloudinary',
+    path: 'https://res.coudinary.com/duo8vqicm/image/upload'
+  }
 };
 
 module.exports = nextConfig;

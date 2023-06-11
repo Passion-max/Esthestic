@@ -4,24 +4,24 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "../styles/globals.css";
 import "../styles/swiper-bundle.min.css";
-
+import { ToastContainer } from 'react-toastify';
 import {ApiProvider} from "@/contexts/ApiProvider";
 import { goerli, mainnet } from 'wagmi/chains'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import $ from 'jquery';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-const chains = [goerli, mainnet]
+const ourChains = [goerli, mainnet]
 const projectId = '3458f0fae062a1fb5e3429a71a0153f3'
 
-
-const { provider } = configureChains(chains, [w3mProvider({ projectId })])
+const { chains, publicClient  } = configureChains(ourChains, [w3mProvider({ projectId })])
 const wagmiClient = createConfig({
   autoConnect: true,
   connectors: w3mConnectors({ projectId, version: 1, chains }),
-  provider
+  publicClient 
 })
 const ethereumClient = new EthereumClient(wagmiClient, chains)
 
@@ -60,6 +60,7 @@ function App({Component}) {
         <Header />
         <Component  />
         <Footer />
+        <ToastContainer />
       </div>
       </ ApiProvider>
       </WagmiConfig>

@@ -12,13 +12,7 @@ import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] })
 
-axios.get('/api/users')
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+
 export default function Home() {
   return (
     <>

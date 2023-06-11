@@ -6,13 +6,17 @@ import { useAccount, default as wagmi } from "wagmi";
 import { useSignMessage, useNetwork, useDisconnect } from "wagmi";
 import { SiweMessage } from "siwe";
 import axios from "axios";
+import { useAPI } from '@/contexts/ApiProvider';
+
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-function SignInButton({ onSuccess, onError }) {
-  const [state, setState] = useState({});
 
+
+function SignInButton({ onSuccess, onError }) {
+  const { state, setState, user, setUser } = useAPI();
+  const [show, setShow] = useState(false);
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { signMessageAsync } = useSignMessage();
@@ -42,7 +46,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
       const chainId = chain?.id;
       if (!address || !chainId) return;
 
-      setState((prevState) => ({ ...prevState, loading: true }));
+      setState((prevState) => ({ ...prevState, loading: true, msg: 'Signing...' }));
       const message = new SiweMessage({
         domain: window.location.host,
         address,
@@ -64,9 +68,37 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
         body: JSON.stringify({ message, signature }),
       });
       if (!verifyRes.ok) throw new Error("Error verifying message");
-      console.log(verifyRes)
-      setState((prevState) => ({ ...prevState, loading: false }));
-      onSuccess({ address });
+      setState((prevState) => ({ ...prevState, loading: true, msg: 'Checking user...' }));
+      axios
+        .get(`/api/users?wallet=${address}`)
+        .then((response) => {
+          console.log("User exists:", response.data);
+          setUser(response.data);
+          setState((prevState) => ({ ...prevState, loading: false }));
+          onSuccess({ address });
+          setShow(false);
+        })
+        .catch((error) => {
+          // If the user does not exist, make a POST request to create the user
+          if (error.response.status === 404) {
+            setState((prevState) => ({ ...prevState, loading: true, msg: 'Creating user...' }));
+            axios
+              .post(`/api/users`, { wallet: address })
+              .then((response) => {
+                console.log("User created:", response.data);
+                setUser(response.data);
+                setState((prevState) => ({ ...prevState, loading: false }));
+                onSuccess({ address });
+                setShow(false);
+              })
+              .catch((error) => {
+                console.error("Error creating user:", error);
+              });
+          } else {
+            console.error("Error fetching user:", error);
+          }
+        });      
+      
     } catch (error) {
       setState((prevState) => ({
         ...prevState,
@@ -78,17 +110,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
     }
   };
 
-  const signOut = async () => {
-    await fetch("/api/logout");
-    setState({});
-  };
-
-  const handleClose = () => {
-    signOut();
-    disconnect();
-    setShow(false);
-  };
-  const handleShow = () => setShow(true);
+  
 
   return (
     <button
@@ -96,7 +118,8 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
       onClick={signIn}
       className="sc-button ml-5 style-2"
     >
-      <span>Accept/Sign in</span>
+      {state.loading?<span>{state.msg}</span>:<span>Accept/Sign in</span>}
+      
     </button>
   );
 }
@@ -105,8 +128,8 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const { state, setState, user, setUser } = useAPI();
   const [show, setShow] = useState(false);
-  const [state, setState] = useState({});
   const { disconnect } = useDisconnect();
 
   const signOut = async () => {
@@ -128,41 +151,40 @@ const Header = () => {
   } = useAccount();
   const [isConnected, setIsConnected] = useState(null);
 
-  useEffect(() => {
-    if (isConnectedInit !== null) {
-      setIsConnected(isConnectedInit);
-      if (isConnectedInit) {
-        handleShow();
-      }
-    }
-  }, [isConnectedInit]);
 
-  useEffect(() => {
-    if (state.address) {
-      setShow(false);
-      // Make a GET request to check if the user exists
-      axios
-        .get(`/api/user?wallet=${state.address}`)
-        .then((response) => {
-          console.log("User exists:", response.data);
-        })
-        .catch((error) => {
-          // If the user does not exist, make a POST request to create the user
-          if (error.response.status === 404) {
-            axios
-              .post(`/api/users`, { wallet: state.address })
-              .then((response) => {
-                console.log("User created:", response.data);
-              })
-              .catch((error) => {
-                console.error("Error creating user:", error);
-              });
-          } else {
-            console.error("Error fetching user:", error);
-          }
-        });
+
+// In your Header.js file, add these lines to your useEffect hook
+
+useEffect(() => {
+  // Check user session
+  const checkUserSession = async () => {
+    try {
+      const res = await axios.get('/api/user');
+      if(res.status === 200) {
+        setUser(res.data.user);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user from session:", error);
     }
-  }, [state.address]);
+  }
+  checkUserSession();
+
+  // Existing code...
+}, []); // Don't forget to add other dependencies if you have any.
+useEffect(() => {
+  if (isConnectedInit !== null) {
+    setIsConnected(isConnectedInit);
+    
+   if (!state.address){
+    handleShow()
+   } 
+  }      
+}, [isConnectedInit]);
+
+useEffect(() => {
+  
+  setShow(false);
+}, [state.address]);
 
   useEffect(() => {
     if (state.error) {
@@ -274,7 +296,7 @@ const Header = () => {
                   </nav>
                 </div>
                 {isConnected !== null &&
-                  (isConnected ? <UserProfile /> : <ConnectWalletButton />)}
+                  (state.address ? <UserProfile /> : <ConnectWalletButton />)}
 
                 <div className="mode_switcher">
                   <a

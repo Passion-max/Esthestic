@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   const { method } = req
   switch (method) {
     case 'GET':
-      res.send({ address: req.session.get('siwe')?.address })
+      res.send({ user: req.session.siwe.address })
       break
     default:
       res.setHeader('Allow', ['GET'])

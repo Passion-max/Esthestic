@@ -1,6 +1,4 @@
-// components/HeroSection/index.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -15,12 +13,37 @@ import avatarImage8 from '../../assets/images/avatar/avt-8.jpg';
 import avatarImage9 from '../../assets/images/avatar/avt-9.jpg';
 import avatarImage10 from '../../assets/images/avatar/avt-10.jpg';
 import avatarImage11 from '../../assets/images/avatar/avt-11.jpg';
+import SigninModal from "../Modals/SigninModal/SigninModal";
+import { useAPI } from '@/contexts/ApiProvider';
+
+
 
 import SliderItem from './SliderItem';
 
+
 function HeroSection() {
-        return (
+ const { state, setState, user, setUser } = useAPI(); 
+ const [isModalVisible, setIsModalVisible] = useState(false);
+ 
+ const handleClick = (event) => {
+    event.preventDefault();
+    if (!state.address) {
+        setIsModalVisible(true);
+    } else {
+        // redirect to upload page if user is logged in
+        window.location.href = "/upload";
+    }
+}
+
+const closeModal = () => {
+    setIsModalVisible(false);
+}
+
+
+
+ return (
             <section className="tf-slider">
+         {isModalVisible && <SigninModal onshow = {closeModal}  />}
                 <div className="swiper-container slider">
                     <Swiper className="swiper-wrapper">
                         <SwiperSlide>
@@ -34,10 +57,10 @@ function HeroSection() {
                                                 molestiae consequatur veillum
                                             </p>
                                             <div className="button-slider">
-                                                <a href="explore-1.html" className="sc-button btn-bordered-white style letter">
+                                                <a href="/explore" className="sc-button btn-bordered-white style letter">
                                                     <span>Explore More</span>
                                                 </a>
-                                                <a href="create-item.html" className="sc-button btn-bordered-white style file">
+                                                <a href="/upload" className="sc-button btn-bordered-white style file" onClick={handleClick}>
                                                     <span>Create Now</span>
                                                 </a>
                                             </div>
@@ -80,10 +103,10 @@ function HeroSection() {
                                         molestiae consequatur veillum
                                     </p>
                                     <div className="button-slider">
-                                        <a href="explore-1.html" className="sc-button btn-bordered-white style letter">
+                                        <a href="/explore" className="sc-button btn-bordered-white style letter">
                                             <span>Explore More</span>
                                         </a>
-                                        <a href="create-item.html" className="sc-button btn-bordered-white style file">
+                                        <a href="/upload" className="sc-button btn-bordered-white style file" onClick={handleClick}>
                                             <span>Create Now</span>
                                         </a>
                                     </div>
@@ -101,6 +124,7 @@ function HeroSection() {
                 <div className="swiper-button-next btn-slide-next "></div>
                 <div className="swiper-button-prev btn-slide-prev"></div>
             </div>
+            
         </section>
     );
 }

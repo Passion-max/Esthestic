@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import EditPicture from "../components/EditPicture/EditPicture"
 import EditProfile from "../components/EditProfile/EditProfile"
 import NotificationSettings from "../components/NotificationSettings/NotificationSettings"
+import { useAPI } from "@/contexts/ApiProvider";
+import { useRouter } from 'next/router';
 
 export default function account() {
   const [activeComponent, setActiveComponent] = useState('profile-picture');
+  const router = useRouter();
+  const { user, setUser, setState } = useAPI();
+
+  // Redirect if user is not defined
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+  }, [user]);
 
   const handleComponentChange = (e, component) => {
     e.preventDefault();

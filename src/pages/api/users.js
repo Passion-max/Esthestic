@@ -1,9 +1,23 @@
 import { PrismaClient } from "@prisma/client";
+import { withIronSessionApiRoute } from 'iron-session/next'
+import { ironOptions } from '../../../ironSessionConfig'
 
 const prisma = new PrismaClient();
 
-const profileImages = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"];
-const featureImages = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"];
+const profileImages = ["https://res.cloudinary.com/duo8vqicm/image/upload/v1686400537/profiles/2_w7ipm2.jpg", 
+"https://res.cloudinary.com/duo8vqicm/image/upload/v1686400537/profiles/5_n82kff.jpg", 
+"https://res.cloudinary.com/duo8vqicm/image/upload/v1686400537/profiles/4_kj9qpl.jpg", 
+"https://res.cloudinary.com/duo8vqicm/image/upload/v1686400537/profiles/3_ixtdjg.jpg", 
+"https://res.cloudinary.com/duo8vqicm/image/upload/v1686400537/profiles/6_cpgkyo.jpg"];
+const featureImages = [
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401069/features/5_o3aryv.jpg", 
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401069/features/1_njv3fk.jpg", 
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401068/features/2_nvlg1q.jpg", 
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401069/features/4_dcsvns.jpg", 
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401069/features/3_wss6fl.jpg",
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401093/features/6_qeraj9.jpg",
+  "https://res.cloudinary.com/duo8vqicm/image/upload/v1686401093/features/7_gqsyw5.jpg"
+];
 
 const getRandomImage = (images) =>
   images[Math.floor(Math.random() * images.length)];
@@ -35,7 +49,7 @@ const createUser = async (wallet) => {
   });
 };
 
-export default async function handle(req, res) {
+const handle = async (req, res) => {
   const {
     method,
     query: { wallet },
@@ -48,16 +62,20 @@ export default async function handle(req, res) {
         if (!user) {
           res.status(404).json({ message: "User not found" });
         } else {
+          req.session.user = {user};
+          await req.session.save();
           res.status(200).json(user);
         }
       } else {
-        const users = 'NO users';
-        res.status(200).json({message: users});
+        const users = await getAllUsers();
+        res.status(200).json(users);
       }
       break;
     case "POST":
       const { wallet } = req.body;
       const newUser = await createUser(wallet);
+      req.session.user = {newUser};
+      await req.session.save();
       res.status(201).json(newUser);
       break;
     default:
@@ -65,3 +83,5 @@ export default async function handle(req, res) {
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
+
+export default withIronSessionApiRoute(handle, ironOptions);

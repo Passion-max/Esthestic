@@ -6,4 +6,7 @@
     // cookieOptions: {
     //   secure: process.env.NODE_ENV === "production",
     // },
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production" ? true: false,
+    },
   };

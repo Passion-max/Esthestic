@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NFTCardTwo from "@/components/NFTCardTwo/NFTCardTwo";
+import { useAPI } from "@/contexts/ApiProvider";
+import { useRouter } from 'next/router';
 
 let collectedNFTs = [
   {
@@ -131,8 +133,17 @@ const TabData = [
     content: collectedContent,
   },
 ];
-
 const User = () => {
+  const router = useRouter();
+  const { user, setUser, setState } = useAPI();
+
+  // Redirect if user is not defined
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+  }, [user]);
+
   const userData = {
     media: "assets/images/img-collection/collection-7.jpg",
     avatar: "assets/images/avatar/avt-15.jpg",
@@ -159,42 +170,42 @@ const User = () => {
           <div className="col-lg-3 col-md-6">
             <div className="sc-author-card style-2 active" style={myStyle}>
               <div className="card-media">
-                <img src={userData.media} alt="" />
+                <img src={user.feature_image} alt="" />
               </div>
               <div className="card-avatar">
-                <img src={userData.avatar} alt="" />
+                <img src={user.profile_image} alt="" />
               </div>
               <div className="card-content">
                 <h5>
-                  <a href="author.html">{userData.name}</a>
+                  <a href="/author">{user.username}</a>
                 </h5>
-                <div className="details">{"seller.collectionType"}</div>
+                <div className="details">Network - Ethereum</div>
                 <div className="card-bottom  ">
                   <div className="widget-social">
                     <ul>
                       <li>
-                        <a href="#" className="active">
+                        <a href={user.twitter? user.twitter: '#'} className="active">
                           <i className="fab fa-facebook-f"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href={user.twitter? user.twitter: '#'}>
                           <i className="fab fa-twitter"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href={user.twitter? user.twitter: '#'}>
                           <i className="fab fa-linkedin-in"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href={user.twitter? user.twitter: '#'}>
                           <i className="fab fa-youtube"></i>
                         </a>
                       </li>
                     </ul>
                   </div>
-                  <a href="/edit-profile" className="sc-button style-2">
+                  <a href="/account" className="sc-button style-2">
                     <span>Edit Profile</span>
                   </a>
                 </div>
@@ -208,6 +219,15 @@ const User = () => {
 };
 
 export default function profile() {
+  const router = useRouter();
+  const { user, setUser, setState } = useAPI();
+
+  // Redirect if user is not defined
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+    }
+  }, [user]);
   const [activeTab, setActiveTab] = useState(TabData[0]);
   return (
     <section className="tf-section item-details-page">

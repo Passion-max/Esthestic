@@ -26,7 +26,4 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_wallet_key" ON "User"("wallet");
