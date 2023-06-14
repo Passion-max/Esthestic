@@ -3,8 +3,7 @@ import ConnectWalletButton from "./ConnectWalletButton/ConnectWalletButton";
 import BidModal from "./Modals/BidModal/BidModal";
 import UserProfile from "./UserProfile/UserProfile";
 import { useAccount, default as wagmi } from "wagmi";
-import { useSignMessage, useNetwork, useDisconnect } from "wagmi";
-import { SiweMessage } from "siwe";
+import { useDisconnect } from "wagmi";
 import axios from "axios";
 import { useAPI } from '@/contexts/ApiProvider';
 
@@ -14,103 +13,12 @@ import Button from "react-bootstrap/Button";
 
 
 
-function SignInButton({ onSuccess, onError }) {
-  const { state, setState, user, setUser } = useAPI();
+function SignInButton() {
+  const { state, setState, user, setUser, signIn } = useAPI();
   const [show, setShow] = useState(false);
   const { address } = useAccount();
-  const { chain } = useNetwork();
-  const { signMessageAsync } = useSignMessage();
-  const { disconnect } = useDisconnect();
+ 
 
-  const fetchNonce = async () => {
-    try {
-      const nonceRes = await fetch("/api/nonce");
-      const nonce = await nonceRes.text();
-      setState((prevState) => ({ ...prevState, nonce }));
-    } catch (error) {
-      setState((prevState) => ({ ...prevState, error }));
-    }
-  };
-
-  useEffect(() => {
-    fetchNonce();
-  }, []);
-
-  let signInMsg = `Sign in to use EsthesticOptics
-
-This request will not trigger a blockchain transaction or cost any gas fees.Your authentication status will reset after 24 hours
-`;
-
-  const signIn = async () => {
-    try {
-      const chainId = chain?.id;
-      if (!address || !chainId) return;
-
-      setState((prevState) => ({ ...prevState, loading: true, msg: 'Signing...' }));
-      const message = new SiweMessage({
-        domain: window.location.host,
-        address,
-        statement: signInMsg,
-        uri: window.location.origin,
-        version: "1",
-        chainId,
-        nonce: state.nonce,
-      });
-      const signature = await signMessageAsync({
-        message: message.prepareMessage(),
-      });
-
-      const verifyRes = await fetch("/api/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message, signature }),
-      });
-      if (!verifyRes.ok) throw new Error("Error verifying message");
-      setState((prevState) => ({ ...prevState, loading: true, msg: 'Checking user...' }));
-      axios
-        .get(`/api/users?wallet=${address}`)
-        .then((response) => {
-          console.log("User exists:", response.data);
-          setUser(response.data);
-          setState((prevState) => ({ ...prevState, loading: false }));
-          onSuccess({ address });
-          setShow(false);
-        })
-        .catch((error) => {
-          // If the user does not exist, make a POST request to create the user
-          if (error.response.status === 404) {
-            setState((prevState) => ({ ...prevState, loading: true, msg: 'Creating user...' }));
-            axios
-              .post(`/api/users`, { wallet: address })
-              .then((response) => {
-                console.log("User created:", response.data);
-                setUser(response.data);
-                setState((prevState) => ({ ...prevState, loading: false }));
-                onSuccess({ address });
-                setShow(false);
-              })
-              .catch((error) => {
-                console.error("Error creating user:", error);
-              });
-          } else {
-            console.error("Error fetching user:", error);
-          }
-        });      
-      
-    } catch (error) {
-      setState((prevState) => ({
-        ...prevState,
-        loading: false,
-        nonce: undefined,
-      }));
-      onError({ error });
-      fetchNonce();
-    }
-  };
-
-  
 
   return (
     <button
@@ -155,22 +63,23 @@ const Header = () => {
 
 // In your Header.js file, add these lines to your useEffect hook
 
-useEffect(() => {
-  // Check user session
-  const checkUserSession = async () => {
-    try {
-      const res = await axios.get('/api/user');
-      if(res.status === 200) {
-        setUser(res.data.user);
-      }
-    } catch (error) {
-      console.error("Failed to fetch user from session:", error);
-    }
-  }
-  checkUserSession();
+// useEffect(() => {
+//   // Check user session
+//   const checkUserSession = async () => {
+//     try {
+//       const res = await axios.get('/api/user');
+//       if(res.status === 200) {
+//         setUser(res.data.user);
+//       }
+//     } catch (error) {
+//       console.error("Failed to fetch user from session:", error);
+//     }
+//   }
+//   checkUserSession();
 
-  // Existing code...
-}, []); // Don't forget to add other dependencies if you have any.
+//   // Existing code...
+// }, []); // Don't forget to add other dependencies if you have any.
+
 useEffect(() => {
   if (isConnectedInit !== null) {
     setIsConnected(isConnectedInit);
@@ -190,7 +99,7 @@ useEffect(() => {
     if (state.error) {
       handleClose();
     }
-  }, [, state.error]);
+  }, [state.error]);
 
   useEffect(() => {
     // Check if window is defined (i.e. we're in a browser)
@@ -390,12 +299,7 @@ useEffect(() => {
               <span>Cancel</span>
             </button>
             <SignInButton
-              onSuccess={({ address }) =>
-                setState((prevState) => ({ ...prevState, address }))
-              }
-              onError={({ error }) =>
-                setState((prevState) => ({ ...prevState, error }))
-              }
+              
             />
           </div>
         </Modal.Body>

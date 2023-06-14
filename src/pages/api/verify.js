@@ -12,10 +12,10 @@ const handler = async (req, res) => {
         const siweMessage = new SiweMessage(message)
         const fields = await siweMessage.verify(signature)
 
-        if (fields.nonce !== req.session.get('nonce'))
+        if (fields.nonce !== req.session.nonce)
           return res.status(422).json({ message: 'Invalid nonce.' })
 
-        req.session.set('siwe', fields)
+        req.session.siwe = fields
         await req.session.save()
         res.json({ ok: true })
       } catch (_error) {
