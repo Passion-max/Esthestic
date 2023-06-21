@@ -70,6 +70,7 @@ export default function EditPicture() {
 
       if (res.data.success) {
         setUser(res.data.user);
+        setSelectedImage()
         toast.success("Image uploaded successfully.");
       } else {
         // Handle error

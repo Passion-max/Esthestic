@@ -59,39 +59,17 @@ const Header = () => {
   } = useAccount();
   const [isConnected, setIsConnected] = useState(null);
 
-
-
-// In your Header.js file, add these lines to your useEffect hook
-
-// useEffect(() => {
-//   // Check user session
-//   const checkUserSession = async () => {
-//     try {
-//       const res = await axios.get('/api/user');
-//       if(res.status === 200) {
-//         setUser(res.data.user);
-//       }
-//     } catch (error) {
-//       console.error("Failed to fetch user from session:", error);
-//     }
-//   }
-//   checkUserSession();
-
-//   // Existing code...
-// }, []); // Don't forget to add other dependencies if you have any.
-
 useEffect(() => {
   if (isConnectedInit !== null) {
     setIsConnected(isConnectedInit);
     
-   if (!state.address){
-    handleShow()
-   } 
+  //  if (!state.address){
+  //   handleShow()
+  //  } 
   }      
 }, [isConnectedInit]);
 
 useEffect(() => {
-  
   setShow(false);
 }, [state.address]);
 

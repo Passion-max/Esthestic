@@ -2,12 +2,12 @@ import React from 'react';
 
 const PopularCategories = () => {
     const categories = [
-        { img: 'assets/images/category/category-1.jpg', title: 'Browse By Template', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
-        { img: 'assets/images/category/category-2.jpg', title: 'UI Template', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
-        { img: 'assets/images/category/category-3.jpg', title: 'Graphics Design', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
-        { img: 'assets/images/category/category-4.jpg', title: 'Social Network', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
-        { img: 'assets/images/category/category-5.jpg', title: 'Browse By Template', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
-        { img: 'assets/images/category/category-6.jpg', title: 'Browse By Template', description: 'Sed ut perspiciatis unde omnis natus error sit voluptatem'},
+        { img: 'assets/images/category/art-esthesticoptic.png', title: 'Browse By Art', description: 'NFTs provide a novel platform for digital artists to monetize their creations.'},
+        { img: 'assets/images/category/collectibles-eot.png', title: 'Digital Collectible', description: 'NFTs represent unique digital collectibles for trade on marketplaces'},
+        { img: 'assets/images/category/estate-eot.png', title: 'Virtual Real Estate', description: 'Virtual "land" in certain platforms can be bought, sold, and traded as NFTs.'},
+        { img: 'assets/images/category/domain-eot.png', title: 'Domain Names', description: 'Blockchain domains sold as NFTs offer more control and security to the owner.'},
+        { img: 'assets/images/category/gaming- eot.png', title: 'Metaverse Gaming', description: 'NFTs signify unique in-game assets, enhancing inter-game operability.'},
+        { img: 'assets/images/category/music-eot.png', title: 'Browse By Music', description: 'Musicians sell unique digital copies of their music as NFTs'},
     ]
 
     return (
@@ -19,7 +19,7 @@ const PopularCategories = () => {
                             <div className="content-left">
                                 <div className="inner">
                                     <h3>Popular Categories</h3>
-                                    <p className="desc">Most popular gaming digital nft market place</p>
+                                    <p className="desc">Most popular digital nft market place</p>
                                 </div>
                             </div>
                             <div className="content-right">

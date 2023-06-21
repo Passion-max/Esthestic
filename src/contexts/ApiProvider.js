@@ -119,6 +119,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
       }));
       setState((prevState) => ({ ...prevState, error }))
       fetchNonce();
+      console.error("Error :", error);
     }
   };
  
