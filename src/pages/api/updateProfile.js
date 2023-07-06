@@ -30,8 +30,8 @@ const validateFields = (fields) => {
       return 'Twitter handle is not valid';
     }
   
-    if (facebook && !/^(https?:\/\/)?(www\.)?instagram.com\/[a-zA-Z0-9(@.)_]{1,40}\/?$/.test(facebook)) {
-      return 'Facebook URL is not valid';
+    if (facebook && !/^[a-z\d.]{5,}$/i.test(facebook)) {
+      return 'Instragram user is not valid';
     }
   
     return null;
