@@ -5,10 +5,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Link } from 'react-router-dom';
 
-import sliderImage3 from '../../assets/images/slider/img-slider-3.jpg';
-import sliderImage4 from '../../assets/images/slider/img-slider-4.jpg';
-import sliderImage5 from '../../assets/images/slider/img-slider-5.jpg';
-import sliderImage1 from '../../assets/images/slider/img-slider-1.png';
+import sliderImage3 from '../../assets/images/nfts/1.jpg';
+import sliderImage4 from '../../assets/images/nfts/2.png';
+import sliderImage5 from '../../assets/images/nfts/4.png';
+import sliderImage1 from '../../assets/images/nfts/5.png';
 import avatarImage8 from '../../assets/images/avatar/avt-8.jpg';
 import avatarImage9 from '../../assets/images/avatar/avt-9.jpg';
 import avatarImage10 from '../../assets/images/avatar/avt-10.jpg';
@@ -51,11 +51,11 @@ const closeModal = () => {
                                 <div className="container">
                                     <div className="slider-inner style-2 home-2 flex">
                                         <div className="slider-content">
-                                            <h1 className="heading">Discover and collect your favorite digital NTFs</h1>
-                                            <p className="sub-heading">
-                                                Quis autem vel eum iure reprehenderit qui in ea voluptates esse quam nihil
-                                                molestiae consequatur veillum
-                                            </p>
+                                        <h1 className="heading">Unearth and Own Exclusive Digital NFTs</h1>
+<p className="sub-heading">
+   Embark on a journey of discovery through our vast digital landscape. Seize the opportunity to claim exclusive digital assets as your own, enriching your portfolio with unique pieces of digital art, music, and more.
+</p>
+
                                             <div className="button-slider">
                                                 <a href="/explore" className="sc-button btn-bordered-white style letter">
                                                     <span>Explore More</span>
@@ -68,14 +68,14 @@ const closeModal = () => {
                                         <div className="slider-img flex">
                                             <div className="img-left">
                                                 <div className="img-1">
-                                                    <img src={sliderImage3.src} alt="Image" />
+                                                    <img src={sliderImage3.src} width='300' alt="Image" />
                                                 </div>
                                                 <div className="img-2">
-                                                    <img src={sliderImage4.src} alt="Image" />
+                                                    <img src={sliderImage4.src} width='300' alt="Image" />
                                                 </div>
                                             </div>
                                             <div className="img-right">
-                                                <img src={sliderImage5.src} alt="Image" />
+                                                <img src={sliderImage5.src} width='300' alt="Image" />
                                                 <div className="box-avatar flex">
                                                     <div className="list-avatar flex">
                                                         <img src={avatarImage8.src} alt="Image" />
@@ -97,11 +97,11 @@ const closeModal = () => {
                             <div className="slider-item">
                                 <div className="slider-inner home-2 flex">
                                     <div className="slider-content">
-                                        <h1 className="heading">Discover and collect your favorite digital NTFs</h1>
-                                        <p className="sub-heading">
-                                            Quis autem vel eum iure reprehenderit qui in ea                                         voluptates esse quam nihil
-                                        molestiae consequatur veillum
-                                    </p>
+                                    <h1 className="heading">Unearth and Own Exclusive Digital NFTs</h1>
+<p className="sub-heading">
+   Embark on a journey of discovery through our vast digital landscape. Seize the opportunity to claim exclusive digital assets as your own, enriching your portfolio with unique pieces of digital art, music, and more.
+</p>
+
                                     <div className="button-slider">
                                         <a href="/explore" className="sc-button btn-bordered-white style letter">
                                             <span>Explore More</span>
@@ -113,7 +113,7 @@ const closeModal = () => {
                                 </div>
                                 <div className="slider-img">
                                     <div className="img-home-1">
-                                        <img src={sliderImage1.src} alt="Image" />
+                                        <img src={sliderImage1.src} width='500' alt="Image" />
                                     </div>
                                 </div>
                             </div>

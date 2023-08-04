@@ -34,5 +34,194 @@ model User {
   date          DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt
+
+  createdNFTs NFT[] @relation("NFTCreator")
+  ownedNFTs   NFT[] @relation("NFTOwner")
+  wonAuctions Auction[]
+  transactionModes TransactionMode[]
+  earnings Earnings[] // new field
+
+  
+  createdCollections Collection[]
+  
+  listings Listing[]
+  bids Bid[]
+  
+  sentMessages Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageReceiver")
+  
+  givenReviews UserReview[] @relation("ReviewReviewer")
+  receivedReviews UserReview[] @relation("ReviewedUser")
+  
+  sentTransfers TransferHistory[] @relation("TransferSender")
+  receivedTransfers TransferHistory[] @relation("TransferReceiver")
+  
+  soldTransactions Transaction[] @relation("TransactionSeller")
+  boughtTransactions Transaction[] @relation("TransactionBuyer")
 }
 
+model NFT {
+  id               Int      @id @default(autoincrement())
+  name             String
+  hash             String   @unique
+  rarity           String
+  description      String?
+  imageUrl        String?
+  creatorID        Int
+  ownerID          Int
+  metadata         Json
+  creationDate     DateTime @default(now())
+  lastTransferDate DateTime?
+  transferCount    Int      @default(0)
+  status           String   @default("Pending")
+  creator          User     @relation("NFTCreator", fields: [creatorID], references: [id])
+  owner            User     @relation("NFTOwner", fields: [ownerID], references: [id])
+  listings         Listing[]
+  transferHistory  TransferHistory[]
+  transactions     Transaction[]
+  auctions Auction[]
+  collectionID Int?
+  collection   Collection?  @relation("CollectionNFTs", fields: [collectionID], references: [id])
+  categoryID Int?
+  category   Category?  @relation("CategoryNFTs", fields: [categoryID], references: [id])
+}
+
+model Collection {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  ownerID     Int
+  creationDate DateTime @default(now())
+  owner       User     @relation(fields: [ownerID], references: [id])
+  nfts        NFT[]    @relation("CollectionNFTs")
+}
+
+model Category {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+  nft         NFT[]  @relation("CategoryNFTs")
+}
+
+model Listing {
+  id            Int      @id @default(autoincrement())
+  nftID         Int
+  sellerID      Int
+  price         Float
+  listingDate   DateTime @default(now())
+  expirationDate DateTime?
+  status        String
+  description   String?
+  nft           NFT      @relation(fields: [nftID], references: [id])
+  seller        User     @relation(fields: [sellerID], references: [id])
+  bids          Bid[]
+}
+
+model Bid {
+  id        Int      @id @default(autoincrement())
+  listingID Int
+  bidderID  Int
+  amount    Float
+  bidTime   DateTime @default(now())
+  status    String
+  listing   Listing  @relation(fields: [listingID], references: [id])
+  bidder    User     @relation(fields: [bidderID], references: [id])
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  senderID Int
+  receiverID Int
+  content String
+  timestamp DateTime @default(now())
+  sender   User     @relation("MessageSender", fields: [senderID], references: [id])
+  receiver User     @relation("MessageReceiver", fields: [receiverID], references: [id])
+}
+
+model UserReview {
+  id             Int      @id @default(autoincrement())
+  reviewerID     Int
+  reviewedUserID Int
+  content        String
+  rating         Float
+  reviewDate     DateTime @default(now())
+  reviewer       User     @relation("ReviewReviewer", fields: [reviewerID], references: [id])
+  reviewedUser   User     @relation("ReviewedUser", fields: [reviewedUserID], references: [id])
+}
+
+model TransferHistory {
+  id          Int      @id @default(autoincrement())
+  nftID       Int
+  senderID    Int
+  receiverID  Int
+  transferDate DateTime @default(now())
+  nft         NFT      @relation(fields: [nftID], references: [id])
+  sender      User     @relation("TransferSender", fields: [senderID], references: [id])
+  receiver    User     @relation("TransferReceiver", fields: [receiverID], references: [id])
+}
+
+model Transaction {
+  id           Int      @id @default(autoincrement())
+  sellerID     Int
+  buyerID      Int
+  nftID        Int
+  price        Float
+  transactionTime DateTime @default(now())
+  seller       User     @relation("TransactionSeller", fields: [sellerID], references: [id])
+  buyer        User     @relation("TransactionBuyer", fields: [buyerID], references: [id])
+  nft          NFT      @relation(fields: [nftID], references: [id])
+}
+
+model Auction {
+  id           Int      @id @default(autoincrement())
+  nftID        Int
+  startTime    DateTime
+  endTime      DateTime
+  startingPrice Float
+  currentPrice Float
+  winnerID     Int?
+  nft          NFT      @relation(fields: [nftID], references: [id])
+  winner       User?    @relation(fields: [winnerID], references: [id])
+}
+
+model BlockchainTransaction {
+  id         Int      @id @default(autoincrement())
+  hash       String   @unique
+  from       String
+  to         String
+  amount    Float
+  gasUsed    Float
+  status     String
+  createdAt  DateTime @default(now())
+}
+
+model TransactionMode {
+  id             Int      @id @default(autoincrement())
+  modeName       String
+  listingFee     Float
+  isBlockchain   Boolean
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  userId         Int
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Earnings {
+  id       Int      @id @default(autoincrement())
+  source   String
+  amount   Float
+  userId   Int
+  desc     String?
+  user     User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SiteSetting {
+  id            Int      @id @default(autoincrement())
+  key           String   @unique
+  value         String
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+}
