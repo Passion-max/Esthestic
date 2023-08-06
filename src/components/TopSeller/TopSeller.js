@@ -1,45 +1,57 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useAPI } from "@/contexts/ApiProvider";
 
 const TopSeller = () => {
-  const sellers = [
-    {
-      avatar: "assets/images/avatar/avt-1.jpg",
-      name: "Jason M. Stalls",
-      eth: "523.7",
-      rating: 4,
-    },
-    {
-      avatar: "assets/images/avatar/avt-1.jpg",
-      name: "Jason M. Stalls",
-      eth: "523.7",
-      rating: 2,
-    },
-    {
-      avatar: "assets/images/avatar/avt-1.jpg",
-      name: "Jason M. Stalls",
-      eth: "523.7",
-      rating: 4,
-    },
-    {
-      avatar: "assets/images/avatar/avt-2.jpg",
-      name: "Frank F. Chan",
-      eth: "523.7",
-      rating: 5,
-    },
-    {
-      avatar: "assets/images/avatar/avt-2.jpg",
-      name: "Frank F. Chan",
-      eth: "523.7",
-      rating: 4,
-    },
-    {
-      avatar: "assets/images/avatar/avt-2.jpg",
-      name: "Frank F. Chan",
-      eth: "523.7",
-      rating: 1,
-    },
-    // add more as needed
-  ];
+
+  const { state, setState, user, setUser, allUsers } = useAPI();
+  const [sellers, setSellers] = useState([]);
+
+  useEffect(() => {
+    const namedUsers = allUsers
+      .filter((user) => user.username !== "unnamed")
+      .slice(0, 6);
+
+      setSellers(namedUsers);
+  }, [allUsers]);
+  // const sellers = [
+  //   {
+  //     avatar: "assets/images/avatar/avt-1.jpg",
+  //     name: "Jason M. Stalls",
+  //     eth: "523.7",
+  //     rating: 4,
+  //   },
+  //   {
+  //     avatar: "assets/images/avatar/avt-1.jpg",
+  //     name: "Jason M. Stalls",
+  //     eth: "523.7",
+  //     rating: 2,
+  //   },
+  //   {
+  //     avatar: "assets/images/avatar/avt-1.jpg",
+  //     name: "Jason M. Stalls",
+  //     eth: "523.7",
+  //     rating: 4,
+  //   },
+  //   {
+  //     avatar: "assets/images/avatar/avt-2.jpg",
+  //     name: "Frank F. Chan",
+  //     eth: "523.7",
+  //     rating: 5,
+  //   },
+  //   {
+  //     avatar: "assets/images/avatar/avt-2.jpg",
+  //     name: "Frank F. Chan",
+  //     eth: "523.7",
+  //     rating: 4,
+  //   },
+  //   {
+  //     avatar: "assets/images/avatar/avt-2.jpg",
+  //     name: "Frank F. Chan",
+  //     eth: "523.7",
+  //     rating: 1,
+  //   },
+  //   // add more as needed
+  // ];
 
   const renderStars = (rating) => {
     let stars = [];
@@ -70,17 +82,18 @@ const TopSeller = () => {
             <div className="col-xl-4 col-lg-6 col-md-6" key={index}>
               <div className="sc-author style-2">
                 <div className="card-avatar">
-                  <img src={seller.avatar} alt="" />
+                  <img src={seller.profile_image} width='70%' alt="" />
                 </div>
                 <div className="infor">
                   <h5>
-                    <a href="author.html">{seller.name}</a>
+                    <a href="author.html">{seller.username}</a>
                   </h5>
-                  <div className="details">{seller.eth} ETH</div>
-                  <ul className="rating">{renderStars(seller.rating)}</ul>
+                  <div className="details">526.00 ETH</div>
+                  <ul className="rating">{renderStars(5)}</ul>
                 </div>
                 <div className="button-follow">
-                  <a href="#" className="sc-button style-2">
+                <a href={`/author?user=${seller.wallet}`} className="sc-button style-2">
+
                     <span>View Profile</span>
                   </a>
                 </div>

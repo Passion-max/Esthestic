@@ -34,7 +34,7 @@ function App({Component}) {
       <Head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>Bidzen | NFT Marketplace HTML Template</title>
+        <title>EsthesticOptics | NFT Marketplace </title>
         <meta name="author" content="themesflat.com" />
         <meta
           name="viewport"

@@ -6,14 +6,14 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 
 const HotCollection = () => {
     const collections = [
-        { media: 'assets/images/img-collection/collection-1.jpg', avatar: 'assets/images/avatar/avt-3.jpg', name: 'Nelson P. Bishos', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-2.jpg', avatar: 'assets/images/avatar/avt-4.jpg', name: 'Charles Chappell', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-3.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Sharles D. Evers', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-3.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Sharles D. Evers', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-3.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Sharles D. Evers', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-3.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Sharles D. Evers', details: 'ERC-75'},
-        { media: 'assets/images/img-collection/collection-3.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Sharles D. Evers', details: 'ERC-75'},
-        // add more as needed
+        { media: 'assets/images/img-collection/col-1.png', avatar: 'assets/images/avatar/avt-3.jpg', name: 'Ethereal Echoes', details: 'ERC-75'},
+        { media: 'assets/images/img-collection/col-4.png', avatar: 'assets/images/avatar/avt-4.jpg', name: 'Dragon Lore', details: 'ERC-75'},
+        { media: 'assets/images/img-collection/col-3.png', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Harmonic Pixels', details: 'ERC-75'},
+        { media: 'assets/images/img-collection/col-5.png', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Mars Estates', details: 'ERC-75'},
+        { media: 'assets/images/img-collection/col-2.png', avatar: 'assets/images/avatar/avt-6.jpg', name: 'Galactic Faces', details: 'ERC-75'},
+        { media: 'assets/images/img-collection/col-6.jpg', avatar: 'assets/images/avatar/avt-6.jpg', name: 'CryptoFauna', details: 'ERC-75'},
+        
+    
     ]
 
    

@@ -5,12 +5,13 @@ import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 import useSWR from "swr";
 import { useSignMessage, useNetwork, useDisconnect } from "wagmi";
-import { SiweMessage } from "siwe";
+import { SiweMessage } from "siwe"; 
 
 const APIContext = createContext();
 
 export const ApiProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
   const [state, setState] = useState({});
 
 //wagmi state
@@ -42,9 +43,26 @@ export const ApiProvider = ({ children }) => {
     }
   };
 
+  
+
   useEffect(() => {
     fetchNonce();
+    const fetchUsers = async() => {
+      try {
+        const response = await axios.get('/api/users');
+        console.log(response.data) // Log the response data here to confirm it's an array
+        setAllUsers(response.data)
+        
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    }
+    fetchUsers();
   }, []);
+
+  useEffect(() => {
+    console.log(allUsers);
+  }, [allUsers]);
 
   let signInMsg = `Sign in to use EsthesticOptics
 
@@ -144,6 +162,7 @@ This request will not trigger a blockchain transaction or cost any gas fees.Your
       value={{
         user,
         state,
+        allUsers,
         setState,
         setUser,
         useUser,

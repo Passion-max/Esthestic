@@ -3,16 +3,70 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 
-
 const TrendyCollection = () => {
-  
   const myStyle = {
     width: "350px",
     marginRight: "40px",
     visibility: "visible",
     animationName: "fadeInUp",
   };
-  const data = [1, 2, 3, 4, 5]; // Replace this with your own data
+  const data = [
+    {
+      imgSrc: "assets/images/nft/_5de2c99a-0b5a-4359-b46e-567d9f176107.jpg",
+      bidButtonHref: "#",
+      bidButtonDataTarget: "#popup_bid",
+      label: "PANDA",
+      titleHref: "item-details.html",
+      titleText: "‘’3D Space Rocket With Smoke Premium’’",
+      avatarSrc: "assets/images/avatar/avt-1.jpg",
+      authorHref: "author.html",
+      authorName: "Daniel M. Bivens",
+      currentBid: "5.23 ETH",
+      currentBidInDollar: "$32.420",
+    },
+    {
+      imgSrc:
+        "assets/images/nft/_df736ab1-e3fb-41b1-8370-29ad64f3738a.jpg",
+      bidButtonHref: "#",
+      bidButtonDataTarget: "#popup_bid",
+      label: "PANDA",
+      titleHref: "item-details.html",
+      titleText: "‘’3D Space Rocket With Smoke Premium’’",
+      avatarSrc: "assets/images/avatar/avt-1.jpg",
+      authorHref: "author.html",
+      authorName: "Daniel M. Bivens",
+      currentBid: "5.23 ETH",
+      currentBidInDollar: "$32.420",
+    },
+    {
+      imgSrc:
+        "assets/images/nft/_ecac06cc-2f29-46c5-b490-1db94e96dd47.jpg",
+      bidButtonHref: "#",
+      bidButtonDataTarget: "#popup_bid",
+      label: "PANDA",
+      titleHref: "item-details.html",
+      titleText: "‘’3D Space Rocket With Smoke Premium’’",
+      avatarSrc: "assets/images/avatar/avt-1.jpg",
+      authorHref: "author.html",
+      authorName: "Daniel M. Bivens",
+      currentBid: "5.23 ETH",
+      currentBidInDollar: "$32.420",
+    },
+    {
+      imgSrc:
+        "assets/images/nft/_fd313e32-6b52-4013-bc26-f15b12b27a08.jpg",
+      bidButtonHref: "#",
+      bidButtonDataTarget: "#popup_bid",
+      label: "PANDA",
+      titleHref: "item-details.html",
+      titleText: "‘’3D Space Rocket With Smoke Premium’’",
+      avatarSrc: "assets/images/avatar/avt-1.jpg",
+      authorHref: "author.html",
+      authorName: "Daniel M. Bivens",
+      currentBid: "5.23 ETH",
+      currentBidInDollar: "$32.420",
+    },
+  ];
 
   return (
     <section className="tf-trendy-collections tf-section">
@@ -44,55 +98,47 @@ const TrendyCollection = () => {
             >
               {data.map((item, index) => (
                 <SwiperSlide key={index}>
-                <div  className="swiper-slide wow fadeInUp" style={myStyle}>
-                  <div className="slider-item">
-                    <div className="sc-product-item style-2">
-                      <div className="product-img">
-                        <img
-                          src="assets/images/product-item/item-12.jpg"
-                          alt="Image"
-                        />
-                        <a
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#popup_bid"
-                          className="sc-button style letter"
-                        >
-                          <span>Place Bid</span>
-                        </a>
-                        <label>PANDA</label>
-                      </div>
-                      <div className="product-content">
-                        <h5 className="title">
-                          <a href="item-details.html">
-                            ‘’3D Space Rocket With Smoke’’
-                          </a>{" "}
-                        </h5>
-                        <div className="product-author flex">
-                          <div className="avatar">
-                            <img
-                              src="assets/images/avatar/avt-7.jpg"
-                              alt="Image"
-                            />
-                          </div>
-                          <div className="infor">
-                            <div className="author-name">
-                              <a href="author.html">Daniel M. Bivens</a>
-                            </div>
-                            <span>Creator</span>
-                          </div>
+                  <div className="swiper-slide wow fadeInUp" style={myStyle}>
+                    <div className="slider-item">
+                      <div className="sc-product-item style-2">
+                        <div className="product-img">
+                          <img src={item.imgSrc} alt="Image" />
+                          <a
+                            href={item.bidButtonHref}
+                            data-toggle="modal"
+                            data-target={item.bidButtonDataTarget}
+                            className="sc-button style letter"
+                          >
+                            <span>Place Bid</span>
+                          </a>
+                          <label>{item.label}</label>
                         </div>
-                        <div className="product-price flex">
-                          <div className="title">Current Bid</div>
-                          <div className="price">
-                            <span>5.23 ETH</span>
-                            <span>= $32.420</span>
+                        <div className="product-content">
+                          <h5 className="title">
+                            <a href={item.titleHref}>{item.titleText}</a>
+                          </h5>
+                          <div className="product-author flex">
+                            <div className="avatar">
+                              <img src={item.avatarSrc} alt="Image" />
+                            </div>
+                            <div className="infor">
+                              <div className="author-name">
+                                <a href={item.authorHref}>{item.authorName}</a>
+                              </div>
+                              <span>Creator</span>
+                            </div>
+                          </div>
+                          <div className="product-price flex">
+                            <div className="title">Current Bid</div>
+                            <div className="price">
+                              <span>{item.currentBid}</span>
+                              <span>= {item.currentBidInDollar}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </SwiperSlide>
               ))}
             </Swiper>
